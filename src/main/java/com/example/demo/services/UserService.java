@@ -1,43 +1,22 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.LoginForm;
 import com.example.demo.Entity.User;
-import com.example.demo.dao.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
+import java.util.Collection;
 import java.util.List;
 
-@Service
-public class UserService  {
-    @Autowired
-    UserDao userDao;
+public interface UserService  {
+    User getUserById(int uid);
 
-    public void saveUser(User user){
-        userDao.save(user);
-    }
+    User getUserByEmail(String email);
 
-    public User findUser(int uid){
-        return userDao.findById(uid);
-    }
+    Collection<User> getAllUser();
 
-    public int getUserID(){
-        int id = 10000+(int)userDao.count();
-        return id;
-    }
+    User createUser(LoginForm loginForm);
 
-    public List<User> findAllUser(){
-        return userDao.findAll();
-    }
+    void deleteUserById(int uid);
 
-    public String registry(User user){
-        if(userDao.findByEmail(user.getEmail()) != null)   return "DUPLICATE_EMAIL";
-        else if(userDao.findByName(user.getUsername()) != null){
-            return "DUPLICATION_NAME";
-        }
-        user.setStatus(0);
-        userDao.save(user);
-        return "TO_VALIDATION";
-    }
+    User getUserByUsername(String username);
 
 }

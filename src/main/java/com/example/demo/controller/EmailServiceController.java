@@ -20,22 +20,17 @@ public class EmailServiceController {
     @Autowired
     EmailService emailService;
 
-    @RequestMapping(value = "/email/sendmailto", method = RequestMethod.POST)
-    public void sendMail(@RequestBody Message msg) throws AddressException, MessagingException {
-        emailService.sendMail(msg);
-    }
-
     @RequestMapping(value = "/email/createmail", method = RequestMethod.POST)
-    public Message getMessage(@RequestParam("address") Address[] addresses,
+    public Message getMessage(@RequestParam("address") InternetAddress[] addresses,
                               @RequestParam("content") String content,
                               @RequestParam("subject") String subject,
                               @RequestParam("username") String username,
                               @RequestParam("password") String password,
                               @RequestParam("attachments") String[] attachments)
-            throws javax.mail.internet.AddressException,
+            throws Exception,
             MessagingException,
             IOException{
-        return emailService.getMessage(addresses,content,subject,username,password,attachments);
+        return emailService.postMessage(addresses,content,subject,attachments);
     }
 
 }
